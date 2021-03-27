@@ -34,7 +34,7 @@ public class PostsController {
 		this.postRepository = postRepository;
 
 		logger.info("PostRepository says system has "
-				+ postRepository.countPosts() + " accounts");
+				+ postRepository.countPosts() + " posts");
 	}
 
 	/**
@@ -61,12 +61,12 @@ public class PostsController {
 	}
 
 	/**
-	 * Fetch accounts with the specified name. A partial case-insensitive match
-	 * is supported. So <code>http://.../accounts/owner/a</code> will find any
-	 * accounts with upper or lower case 'a' in their name.
+	 * Fetch posts with the specified name. A partial case-insensitive match
+	 * is supported. So <code>http://.../posts/owner/a</code> will find any
+	 * posts with upper or lower case 'a' in their name.
 	 * 
 	 * @param partialName
-	 * @return A non-null, non-empty set of accounts.
+	 * @return A non-null, non-empty set of posts.
 	 * @throws PostNotFoundException
 	 *             If there are no matches at all.
 	 */
