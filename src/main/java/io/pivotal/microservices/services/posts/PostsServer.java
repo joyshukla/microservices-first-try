@@ -3,15 +3,14 @@ package io.pivotal.microservices.services.posts;
 import java.util.logging.Logger;
 
 import io.pivotal.microservices.posts.PostRepository;
-import io.pivotal.microservices.services.accounts.AccountsServer;
+import io.pivotal.microservices.services.posts.PostsServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Import;
 
-//TODO
-import io.pivotal.microservices.accounts.AccountRepository;
+import io.pivotal.microservices.posts.PostRepository;
 import io.pivotal.microservices.posts.PostsConfiguration;
 import io.pivotal.microservices.services.registration.RegistrationServer;
 
