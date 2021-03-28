@@ -75,5 +75,21 @@ public class ForumPostsService {
             return Arrays.asList(posts);
     }
 
+    public List<Post> getForum() {
+        logger.info("getForum() invoked.");
+        Post[] posts = null;
+
+        try {
+            posts = restTemplate.getForObject(serviceUrl + "/posts/getforum", Post[].class);
+        } catch (HttpClientErrorException e) { // 404
+            // Nothing found
+        }
+
+        if (posts == null || posts.length == 0)
+            return null;
+        else
+            return Arrays.asList(posts);
+    }
+
 
 }

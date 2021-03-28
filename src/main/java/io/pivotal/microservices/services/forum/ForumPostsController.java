@@ -73,6 +73,17 @@ public class ForumPostsController {
         return "posts";
     }
 
+    @RequestMapping("/posts/getforum")
+    public String getForum(Model model) {
+        logger.info("forum-service getForum() invoked.");
+
+        List<Post> posts = postsService.getForum();
+        //model.addAttribute("search", name);
+        if (posts != null)
+            model.addAttribute("posts", posts);
+        return "posts";
+    }
+
     /*
     @RequestMapping(value = "/accounts/search", method = RequestMethod.GET)
     public String searchForm(Model model) {

@@ -23,8 +23,8 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Account Number</th>
 					<th>Thread</th>
+					<th>Account Number</th>
 					<th>Subject</th>
 					<th>Body</th>
 				</tr>
@@ -37,8 +37,8 @@
 						th:href="@{|/accounts/${account.number}|}"
 						th:text="|${account.number}|">11111111</a></td>
 						-->
-					<td th:text="${post.number}">11111111</td>
 					<td th:text="${post.thread}">11111111</td>
+					<td th:text="${post.number}">11111111</td>
 					<td th:text="${post.subject}">Owner</td>
 					<td th:text="${post.body}">body</td>
 				</tr>
