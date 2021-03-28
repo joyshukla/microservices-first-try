@@ -108,10 +108,10 @@ public class PostsController {
 							   @PathVariable("body") String body) {
 		logger.info("posts-service addtothread() invoked: "
 				+ postRepository.getClass().getName() + " for "
-				+ "thread: " + thread
-				+ "account: " + account
-				+ "subject: " + subject
-				+ "body: " + body
+				+ " thread: " + thread
+				+ " account: " + account
+				+ " subject: " + subject
+				+ " body: " + body
 		);
 
 		List<Post> posts = postRepository.findByThread(thread);
@@ -146,13 +146,13 @@ public class PostsController {
 							  @PathVariable("body") String body) {
 		logger.info("posts-service createThread() invoked: "
 				+ postRepository.getClass().getName() + " for "
-				+ "account: " + account
-				+ "subject: " + subject
-				+ "body: " + body
+				+ " account: " + account
+				+ " subject: " + subject
+				+ " body: " + body
 		);
 
 		logger.info("posts-service createThread() : adding a post with new thread" );
-		Post document = new Post(account, subject, body); // Note: order is different here.
+		Post document = new Post(account, subject, body);
 		postRepository.save(document);
 		return "success";
 	}

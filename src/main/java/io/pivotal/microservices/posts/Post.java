@@ -60,7 +60,7 @@ public class Post implements Serializable {
 	protected Post() {
 	}
 
-	public Post(String number, String subject, String Body) {
+	public Post(String number, String subject, String body) {
 		id = getNextId();
 		this.number = number;
 		this.thread = getNextThread().toString();
