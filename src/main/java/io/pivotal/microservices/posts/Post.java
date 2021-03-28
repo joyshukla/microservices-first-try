@@ -1,5 +1,7 @@
 package io.pivotal.microservices.posts;
 
+import org.apache.catalina.util.ToStringUtil;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Persistent post entity with JPA markup. posts are stored in an H2
@@ -23,14 +30,14 @@ public class Post implements Serializable{
     private static final long serialVersionUID = 1L;
 
     public static Long nextId = 0L;
-    public static Long nextThreadId = 0L;
+    public static Integer nextThreadId = 1;
 
     @Id
     protected Long id;
 
     // thread ID
     //@Column(name = "threadid")
-    protected Long threadID;
+    protected String threadID;
 
     //@Column(name = "subject")
     protected String subject;
@@ -52,16 +59,17 @@ public class Post implements Serializable{
     }
 
 
-    protected static Long getNextThreadId() {
+    protected static String getNextThreadId() {
         synchronized (nextThreadId) {
-            return nextThreadId++;
+            nextThreadId++;
+            return Integer.toString(nextThreadId);
         }
     }
 
     protected Post() {
     }
 
-    public Post(Long threadID, String subject, String body) {
+    public Post(String threadID, String subject, String body) {
         // threadID provided, add the post to provided ThreadID
         id = getNextId();
         this.threadID = threadID;
@@ -91,11 +99,11 @@ public class Post implements Serializable{
         this.id = id;
     }
 
-    public long getThreadId() {
+    public String getThreadId() {
         return threadID;
     }
 
-    protected void setThreadID(Long threadID) {
+    protected void setThreadID(String threadID) {
         this.threadID = threadID;
     }
 

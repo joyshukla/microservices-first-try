@@ -82,6 +82,7 @@ public class PostsController {
 
 		logger.info("posts-service showAll() found: " + posts);
 
+
 		if (posts == null || posts.size() == 0)
 			throw new PostNotFoundException();
 		else {
@@ -90,7 +91,7 @@ public class PostsController {
 	}
 
 	@RequestMapping("/posts/bytid/{threadid}")
-	public List<Post> byThreadID(@PathVariable Long threadid) {
+	public List<Post> byThreadID(@PathVariable String threadid) {
 		logger.info("posts-service byThreadID() invoked: "
 				+ postRepository.getClass().getName() + " for "
 				+ threadid);
@@ -120,7 +121,7 @@ public class PostsController {
 	}
 
 	@RequestMapping("/posts/add/{threadid}/{subject}/{body}")
-	public void addNewPostWithThreadID(@PathVariable Long threadid, @PathVariable String subject, @PathVariable String body) {
+	public void addNewPostWithThreadID(@PathVariable String threadid, @PathVariable String subject, @PathVariable String body) {
 		logger.info("posts-service addNewPostWithThreadID() invoked: "
 				+ postRepository.getClass().getName() + " for "
 				+ " ThreadID :" + threadid

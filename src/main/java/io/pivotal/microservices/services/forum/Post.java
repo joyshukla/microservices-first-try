@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 public class Post {
 
 	protected Long id;
-	protected Long threadID;
+	protected String threadID;
 	protected String subject;
 	protected String body;
 
@@ -38,10 +38,10 @@ public class Post {
 		this.id = id;
 	}
 
-	public Long getThreadID() {
+	public String getThreadID() {
 		return threadID;
 	}
-	protected void setThreadID(Long threadID) {
+	protected void setThreadID(String threadID) {
 		this.threadID = threadID;
 	}
 

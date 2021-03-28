@@ -24,7 +24,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
      *         empty.
      */
     public List<Post> findBySubjectContainingIgnoreCase(String partialSubject);
-    public List<Post> findByThreadID(Long threadid);
+    public List<Post> findByThreadID(String threadid);
 
 
     /**

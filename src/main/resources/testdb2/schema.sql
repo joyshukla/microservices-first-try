@@ -1,7 +1,7 @@
 drop table T_POST if exists;
 
 create table T_POST (ID bigint identity primary key,
-                        THREADID bigint,
+                        THREADID varchar(9),
                         SUBJECT varchar(100),
                         BODY varchar(300) NOT NULL);
                         
