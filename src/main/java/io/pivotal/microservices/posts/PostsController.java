@@ -63,8 +63,7 @@ public class PostsController {
 	}
 
 	/**
-	 * Fetch posts with the specified thread. A partial case-insensitive match
-	 * is supported. So <code>http://.../posts/thread/a</code> will find any
+	 * Fetch posts with the specified thread. So <code>http://.../posts/thread/a</code> will find any
 	 * accounts with upper or lower case 'a' in their name.
 	 *
 	 * @param thread
@@ -87,6 +86,32 @@ public class PostsController {
 		else {
 			return posts;
 		}
+	}
+
+	/**
+	 * add post with the specified thread. So <code>http://.../posts/createthread/{thread}/{account}/{subject}/{body}
+	 * will add new post
+	 *
+	 * @param thread
+	 * @return A non-null, non-empty set of posts.
+	 * @throws ThreadNotFoundException
+	 *             If there are no matches at all.
+	 */
+	@RequestMapping("/posts/createthread/{thread}/{account}/{subject}/{body}")
+	public void createThread(@PathVariable("thread") String thread,
+							   @PathVariable("account") String account,
+							   @PathVariable("subject") String subject,
+							   @PathVariable("body") String body) {
+		logger.info("posts-service createThread() invoked: "
+				+ postRepository.getClass().getName() + " for "
+				+ "thread: " + thread
+				+ "account: " + account
+				+ "subject: " + subject
+				+ "body: " + body
+		);
+
+		Post document = new Post(account, thread, subject, body); // Note: sorder is different here.
+		postRepository.save(document);
 	}
 
 
