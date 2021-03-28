@@ -61,7 +61,10 @@ public class PostsConfiguration {
 
 		for (Map<String, Object> item : posts) {
 			String number = (String) item.get("number");
+			String thread = (String) item.get("thread");
+			logger.info("thread for " + number + " is " + thread);
 			//TODO for thread here may be.
+			jdbcTemplate.update("UPDATE T_POST SET thread = ? WHERE number = ?", "777777777", number);
 			//BigDecimal balance = new BigDecimal(rand.nextInt(10000000) / 100.0).setScale(2, RoundingMode.HALF_UP);
 			//jdbcTemplate.update("UPDATE T_POST SET balance = ? WHERE number = ?", balance, number);
 		}
