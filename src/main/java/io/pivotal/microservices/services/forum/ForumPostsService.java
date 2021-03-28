@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * Hide the access to the microservice inside this local service.
  * 
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @Service
 public class ForumPostsService {

@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Client controller, fetches Account info from the microservice via
+ * Client controller, fetches Account and Forum info from the microservice via
  * {@link ForumPostsService}.
  * 
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 
 
