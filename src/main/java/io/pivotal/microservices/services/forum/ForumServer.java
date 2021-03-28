@@ -29,6 +29,7 @@ public class ForumServer {
      * matter.
      */
     public static final String ACCOUNTS_SERVICE_URL = "http://ACCOUNTS-SERVICE";
+    public static final String POSTS_SERVICE_URL = "http://POSTS-SERVICE";
 
     /**
      * Run the application using Spring Boot and an embedded servlet engine.
@@ -75,6 +76,26 @@ public class ForumServer {
     @Bean
     public ForumAccountsController accountsController() {
         return new ForumAccountsController(accountsService());
+    }
+
+    /**
+     * The PostService encapsulates the interaction with the micro-service.
+     *
+     * @return A new service instance.
+     */
+    @Bean
+    public ForumPostsService postsService() {
+        return new ForumPostsService(POSTS_SERVICE_URL);
+    }
+
+    /**
+     * Create the controller, passing it the {@link ForumPostsService} to use.
+     *
+     * @return
+     */
+    @Bean
+    public ForumPostsController postsController() {
+        return new ForumPostsController(postsService());
     }
 
     @Bean
