@@ -120,25 +120,25 @@ public class PostsController {
 	 * is supported. So <code>http://.../accounts/owner/a</code> will find any
 	 * accounts with upper or lower case 'a' in their name.
 	 * 
-	 * @param partialName
+	 * @param partialSubject
 	 * @return A non-null, non-empty set of accounts.
 	 * @throws PostNotFoundException
 	 *             If there are no matches at all.
 	 */
-	@RequestMapping("/posts/owner/{name}")
-	public List<Post> byOwner(@PathVariable("name") String partialName) {
+	@RequestMapping("/posts/subject/{name}")
+	public List<Post> bySubject(@PathVariable("name") String partialSubject) {
 		logger.info("accounts-service byOwner() invoked: "
 				+ postRepository.getClass().getName() + " for "
-				+ partialName);
+				+ partialSubject);
 
-		List<Post> accounts = postRepository
-				.findBySubjectContainingIgnoreCase(partialName);
-		logger.info("accounts-service byOwner() found: " + accounts);
+		List<Post> posts = postRepository
+				.findBySubjectContainingIgnoreCase(partialSubject);
+		logger.info("accounts-service byOwner() found: " + posts);
 
-		if (accounts == null || accounts.size() == 0)
-			throw new PostNotFoundException(partialName);
+		if (posts == null || posts.size() == 0)
+			throw new PostNotFoundException(partialSubject);
 		else {
-			return accounts;
+			return posts;
 		}
 	}
 }
