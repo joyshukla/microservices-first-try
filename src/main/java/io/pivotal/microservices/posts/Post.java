@@ -81,11 +81,6 @@ public class Post implements Serializable{
         return id;
     }
 
-    public long getThreadId() {
-        return threadID;
-    }
-
-
     /**
      * Set JPA id - for testing and JPA only. Not intended for normal use.
      *
@@ -96,6 +91,27 @@ public class Post implements Serializable{
         this.id = id;
     }
 
+    public long getThreadId() {
+        return threadID;
+    }
+
+    protected void setThreadID(Long threadID) {
+        this.threadID = threadID;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+    protected void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+    protected void setBody(String body) {
+        this.body = body;
+    }
 
     @Override
     public String toString() {

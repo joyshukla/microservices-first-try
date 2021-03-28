@@ -21,4 +21,8 @@ public class PostNotFoundException extends RuntimeException {
 	public PostNotFoundException(Long threadid) {
 		super("No such Thread: " + threadid);
 	}
+
+	public PostNotFoundException() {
+		super("No post found: ");
+	}
 }

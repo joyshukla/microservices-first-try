@@ -28,7 +28,7 @@ public class ForumServer {
      * URL uses the logical name of account-service - upper or lower case, doesn't
      * matter.
      */
-    public static final String ACCOUNTS_SERVICE_URL = "http://ACCOUNTS-SERVICE";
+    public static final String POSTS_SERVICE_URL = "http://POSTS-SERVICE";
 
     /**
      * Run the application using Spring Boot and an embedded servlet engine.
@@ -63,18 +63,19 @@ public class ForumServer {
      * @return A new service instance.
      */
     @Bean
-    public WebAccountsService accountsService() {
-        return new WebAccountsService(ACCOUNTS_SERVICE_URL);
+    public ForumPostsService postsService() {
+        return new ForumPostsService(POSTS_SERVICE_URL);
     }
 
+
     /**
-     * Create the controller, passing it the {@link WebAccountsService} to use.
+     * Create the controller, passing it the {@link ForumPostsService} to use.
      * 
      * @return
      */
     @Bean
-    public WebAccountsController accountsController() {
-        return new WebAccountsController(accountsService());
+    public ForumPostsController forumsController() {
+        return new ForumPostsController(postsService());
     }
 
     @Bean

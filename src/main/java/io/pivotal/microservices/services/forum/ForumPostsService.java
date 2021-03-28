@@ -1,18 +1,17 @@
 package io.pivotal.microservices.services.forum;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.annotation.PostConstruct;
-
+import io.pivotal.microservices.exceptions.PostNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import io.pivotal.microservices.exceptions.AccountNotFoundException;
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 /**
  * Hide the access to the microservice inside this local service.
@@ -20,7 +19,7 @@ import io.pivotal.microservices.exceptions.AccountNotFoundException;
  * @author Paul Chapman
  */
 @Service
-public class WebAccountsService {
+public class ForumPostsService {
 
     @Autowired
     @LoadBalanced
@@ -28,9 +27,9 @@ public class WebAccountsService {
 
     protected String serviceUrl;
 
-    protected Logger logger = Logger.getLogger(WebAccountsService.class.getName());
+    protected Logger logger = Logger.getLogger(ForumPostsService.class.getName());
 
-    public WebAccountsService(String serviceUrl) {
+    public ForumPostsService(String serviceUrl) {
         this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl : "http://" + serviceUrl;
     }
 
@@ -45,6 +44,29 @@ public class WebAccountsService {
         logger.warning("The RestTemplate request factory is " + restTemplate.getRequestFactory().getClass());
     }
 
+    public List<Post> showAllPosts() {
+        logger.info("showAllPosts() invoked:");
+        Post[] posts = null;
+        logger.info("serviceUrl:" + serviceUrl);
+
+        try {
+            posts = restTemplate.getForObject(serviceUrl + "/posts/showall", Post[].class);
+        } catch (HttpClientErrorException e) { // 404
+            // Nothing found
+        }
+
+        logger.info(String.valueOf(posts[0]));
+
+        if (posts == null || posts.length == 0)
+            return null;
+        else{
+            logger.info("showAllPosts() returned:" + Arrays.asList(posts));
+            return Arrays.asList(posts);
+        }
+
+    }
+
+    /*
     public Account findByNumber(String accountNumber) {
 
         logger.info("findByNumber() invoked: for " + accountNumber);
@@ -54,7 +76,6 @@ public class WebAccountsService {
             logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
             return null;
         }
-
     }
 
     public List<Account> byOwnerContains(String name) {
@@ -81,4 +102,5 @@ public class WebAccountsService {
         else
             return account;
     }
+     */
 }

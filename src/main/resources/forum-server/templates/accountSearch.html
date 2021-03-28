@@ -5,10 +5,9 @@
 <head th:replace="header :: copy"></head>
 
 <body>
-	<h1>Account Search</h1>
+	<h1>Account Login</h1>
 
-	<p>Enter an account number or search for an account owner
-		containing given specified text:</p>
+	<p>Enter an account number:</p>
 
 	<form class="bg-gray" action="#" th:object="${searchCriteria}" method="GET"
 		th:action="@{/accounts/dosearch}">
@@ -29,8 +28,9 @@
 			</div>
 	    </div>
 
+		<!--
         <div class="row">
-			<!-- Owner name field -->
+			<!- - Owner name field - ->
 			<div class="form-group col-4">
 				<label for="search" class="control-label col-xs-2">Account Owner Search</label>
 				<input type="text" class="form-control" id="search"
@@ -39,12 +39,13 @@
 				<small class="form-text text-muted">Case-insensitive letters, supports part name matching</small>
 			</div>
 	
-			<!-- Owner name errors (if any) -->
+			<!- - Owner name errors (if any) - ->
 			<div class="col-5 p-4">
 				<span th:if="${#fields.hasErrors('searchText')}"
 				      style="color: red; font-size: smaller" th:errors="*{searchText}"></span>
 			</div>
 		</div>
+		-->
 
 		<!--  Submit button -->
 		<div class="form-group">

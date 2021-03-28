@@ -1,3 +1,4 @@
+
 package io.pivotal.microservices.services.forum;
 
 import java.util.List;
@@ -16,32 +17,49 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Client controller, fetches Account info from the microservice via
- * {@link WebAccountsService}.
+ * {@link ForumPostsService}.
  * 
  * @author Paul Chapman
  */
+
+
 @Controller
-public class WebAccountsController {
+public class ForumPostsController {
 
     @Autowired
-    protected WebAccountsService accountsService;
+    protected ForumPostsService postsService;
 
-    protected Logger logger = Logger.getLogger(WebAccountsController.class.getName());
+    protected Logger logger = Logger.getLogger(ForumPostsController.class.getName());
 
-    public WebAccountsController(WebAccountsService accountsService) {
-        this.accountsService = accountsService;
+    public ForumPostsController(ForumPostsService accountsService) {
+        this.postsService = postsService;
     }
 
+    /*
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setAllowedFields("accountNumber", "searchText");
     }
+     */
 
-    @RequestMapping("/accounts")
+    @RequestMapping("/posts")
     public String goHome() {
         return "index";
     }
 
+    @RequestMapping("/posts/showall")
+    public String showall(Model model) {
+        logger.info("forum-service showall() invoked: ");
+
+        List<Post> posts = postsService.showAllPosts();
+        logger.info("forum-service showall() found: " + posts);
+        model.addAttribute("showall");
+        if (posts != null)
+            model.addAttribute("posts", posts);
+        return "posts";
+    }
+
+    /*
     @RequestMapping("/accounts/{accountNumber}")
     public String byNumber(Model model, @PathVariable("accountNumber") String accountNumber) {
 
@@ -94,4 +112,6 @@ public class WebAccountsController {
             return ownerSearch(model, searchText);
         }
     }
+
+     */
 }

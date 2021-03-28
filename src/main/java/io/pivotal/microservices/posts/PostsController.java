@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * A RESTFul controller for accessing post information.
@@ -60,6 +62,28 @@ public class PostsController {
 
 		if (posts == null || posts.size() == 0)
 			throw new PostNotFoundException(partialSubject);
+		else {
+			return posts;
+		}
+	}
+
+	@RequestMapping("/posts/showall")
+	public List<Post> showAll() {
+		logger.info("posts-service showAll() invoked: "
+				+ postRepository.getClass().getName());
+
+		Iterable<Post> postIterable = postRepository
+				.findAll();
+
+		// iterator to List conversion.
+		List<Post> posts = StreamSupport
+				.stream(postIterable.spliterator(), false)
+				.collect(Collectors.toList());
+
+		logger.info("posts-service showAll() found: " + posts);
+
+		if (posts == null || posts.size() == 0)
+			throw new PostNotFoundException();
 		else {
 			return posts;
 		}
