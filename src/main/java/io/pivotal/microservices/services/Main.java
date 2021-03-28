@@ -3,6 +3,7 @@ package io.pivotal.microservices.services;
 import java.net.InetAddress;
 
 import io.pivotal.microservices.services.accounts.AccountsServer;
+import io.pivotal.microservices.services.posts.PostsServer;
 import io.pivotal.microservices.services.registration.RegistrationServer;
 import io.pivotal.microservices.services.web.WebServer;
 
@@ -66,6 +67,8 @@ public class Main {
             AccountsServer.main(args);
         } else if (serverName.equals("web")) {
             WebServer.main(args);
+        } else if (serverName.equals("post")) {
+            PostsServer.main(args);
         } else {
             // Unrecognized server type - print usage and exit
             System.out.println("Unknown server type: " + serverName);
