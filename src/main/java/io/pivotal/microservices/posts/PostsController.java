@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.pivotal.microservices.exceptions.PostNotFoundException;
+import io.pivotal.microservices.exceptions.ThreadNotFoundException;
+
+
 
 /**
  * A RESTFul controller for accessing account information.
@@ -29,11 +32,11 @@ public class PostsController {
 	 *            An account repository implementation.
 	 */
 	@Autowired
-	public PostsController(PostRepository accountRepository) {
-		this.postRepository = accountRepository;
+	public PostsController(PostRepository postRepository) {
+		this.postRepository = postRepository;
 
 		logger.info("AccountRepository says system has "
-				+ accountRepository.countAccounts() + " accounts");
+				+ postRepository.countAccounts() + " accounts");
 	}
 
 	/**
@@ -60,6 +63,34 @@ public class PostsController {
 	}
 
 	/**
+	 * Fetch posts with the specified thread. A partial case-insensitive match
+	 * is supported. So <code>http://.../posts/thread/a</code> will find any
+	 * accounts with upper or lower case 'a' in their name.
+	 *
+	 * @param thread
+	 * @return A non-null, non-empty set of posts.
+	 * @throws ThreadNotFoundException
+	 *             If there are no matches at all.
+	 */
+	@RequestMapping("/posts/thread/{thread}")
+	public List<Post> byThread(@PathVariable("thread") String thread) {
+		logger.info("accounts-service byThread() invoked: "
+				+ postRepository.getClass().getName() + " for "
+				+ thread);
+
+		List<Post> posts = postRepository
+				.findByThread(thread);
+		logger.info("accounts-service byThread() found: " + posts);
+
+		if (posts == null || posts.size() == 0)
+			throw new ThreadNotFoundException(thread);
+		else {
+			return posts;
+		}
+	}
+
+
+	/**
 	 * Fetch accounts with the specified name. A partial case-insensitive match
 	 * is supported. So <code>http://.../accounts/owner/a</code> will find any
 	 * accounts with upper or lower case 'a' in their name.
@@ -69,14 +100,14 @@ public class PostsController {
 	 * @throws PostNotFoundException
 	 *             If there are no matches at all.
 	 */
-	@RequestMapping("/accounts/owner/{name}")
+	@RequestMapping("/posts/owner/{name}")
 	public List<Post> byOwner(@PathVariable("name") String partialName) {
 		logger.info("accounts-service byOwner() invoked: "
 				+ postRepository.getClass().getName() + " for "
 				+ partialName);
 
 		List<Post> accounts = postRepository
-				.findByOwnerContainingIgnoreCase(partialName);
+				.findBySubjectContainingIgnoreCase(partialName);
 		logger.info("accounts-service byOwner() found: " + accounts);
 
 		if (accounts == null || accounts.size() == 0)

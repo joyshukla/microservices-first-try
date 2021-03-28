@@ -27,7 +27,17 @@ public interface PostRepository extends Repository<Post, Long> {
 	 * @return The list of matching accounts - always non-null, but may be
 	 *         empty.
 	 */
-	public List<Post> findByOwnerContainingIgnoreCase(String partialName);
+	public List<Post> findBySubjectContainingIgnoreCase(String partialName);
+
+	/**
+	 * Find accounts whose thread is the specified string
+	 *
+	 * @param thread
+	 *            Any alphabetic string.
+	 * @return The list of matching accounts - always non-null, but may be
+	 *         empty.
+	 */
+	public List<Post> findByThread(String thread);
 
 	/**
 	 * Fetch the number of accounts known to the system.
@@ -36,4 +46,7 @@ public interface PostRepository extends Repository<Post, Long> {
 	 */
 	@Query("SELECT count(*) from Post")
 	public int countAccounts();
+
+
+
 }
