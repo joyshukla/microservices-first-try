@@ -33,7 +33,6 @@ public class Post implements Serializable {
 	protected String subject;
 	protected String body;
 
-	protected BigDecimal balance;
 
 	/**
 	 * This is a very simple, and non-scalable solution to generating unique
@@ -52,7 +51,6 @@ public class Post implements Serializable {
 	 * Default constructor for JPA only.
 	 */
 	protected Post() {
-		balance = BigDecimal.ZERO;
 	}
 
 	public Post(String number, String subject) {
@@ -61,7 +59,6 @@ public class Post implements Serializable {
 		this.thread = "777777777";
 		this.subject = subject;
 		this.body = "empty body";
-		balance = BigDecimal.ZERO;
 	}
 
 	public Post(String number, String thread, String subject, String body) {
@@ -70,7 +67,6 @@ public class Post implements Serializable {
 		this.thread = thread;
 		this.subject = subject;
 		this.body = body;
-		balance = BigDecimal.ZERO;
 	}
 
 	public long getId() {
@@ -119,21 +115,9 @@ public class Post implements Serializable {
 		this.body = body;
 	}
 
-	public BigDecimal getBalance() {
-		return balance.setScale(2, RoundingMode.HALF_EVEN);
-	}
-
-	public void withdraw(BigDecimal amount) {
-		balance.subtract(amount);
-	}
-
-	public void deposit(BigDecimal amount) {
-		balance.add(amount);
-	}
-
 	@Override
 	public String toString() {
-		return number + " [" + subject + "]: $" + balance;
+		return number + " [" + subject + "]: $" + body;
 	}
 
 }
