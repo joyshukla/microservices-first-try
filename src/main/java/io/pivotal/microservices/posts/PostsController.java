@@ -91,14 +91,14 @@ public class PostsController {
 	}
 
 	@RequestMapping("/posts/bytid/{threadid}")
-	public List<Post> byThreadID(@PathVariable String threadid) {
-		logger.info("posts-service byThreadID() invoked: "
+	public List<Post> byThreadid(@PathVariable String threadid) {
+		logger.info("posts-service byThreadid() invoked: "
 				+ postRepository.getClass().getName() + " for "
 				+ threadid);
 
 		List<Post> posts = postRepository
-				.findByThreadID(threadid);
-		logger.info("posts-service byThreadID() found: " + posts);
+				.findByThreadid(threadid);
+		logger.info("posts-service byThreadid() found: " + posts);
 
 		if (posts == null || posts.size() == 0)
 			throw new PostNotFoundException(threadid);

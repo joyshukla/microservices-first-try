@@ -36,14 +36,17 @@ public class Post implements Serializable{
     protected Long id;
 
     // thread ID
-    //@Column(name = "threadid")
-    protected String threadID;
+    @Column(name = "threadid")
+    protected String threadid;
 
-    //@Column(name = "subject")
+    @Column(name = "subject")
     protected String subject;
 
-    //@Column(name = "body")
+    @Column(name = "body")
     protected String body;
+
+    @Column(name = "accountnumber")
+    protected String accountnumber;
 
     /**
      * This is a very simple, and non-scalable solution to generating unique
@@ -69,20 +72,31 @@ public class Post implements Serializable{
     protected Post() {
     }
 
-    public Post(String threadID, String subject, String body) {
+    public Post(String threadid, String subject, String body, String accountnumber) {
         // threadID provided, add the post to provided ThreadID
         id = getNextId();
-        this.threadID = threadID;
+        this.threadid = threadid;
         this.subject = subject;
         this.body = body;
+        this.accountnumber = accountnumber;
+    }
+
+    public Post(String subject, String body, String accountnumber) {
+        // threadID not provided. create a new threadID and add the new post to it.
+        id = getNextId();
+        this.threadid = getNextThreadId();
+        this.subject = subject;
+        this.body = body;
+        this.accountnumber = accountnumber;
     }
 
     public Post(String subject, String body) {
         // threadID not provided. create a new threadID and add the new post to it.
         id = getNextId();
-        this.threadID = getNextThreadId();
+        this.threadid = getNextThreadId();
         this.subject = subject;
         this.body = body;
+        this.accountnumber = "123456789";
     }
 
     public long getId() {
@@ -99,12 +113,11 @@ public class Post implements Serializable{
         this.id = id;
     }
 
-    public String getThreadId() {
-        return threadID;
+    public String getThreadid() {
+        return threadid;
     }
-
-    protected void setThreadID(String threadID) {
-        this.threadID = threadID;
+    protected void setThreadid(String threadid) {
+        this.threadid = threadid;
     }
 
     public String getSubject() {
@@ -121,9 +134,16 @@ public class Post implements Serializable{
         this.body = body;
     }
 
+    public String getAccountnumber() {
+        return accountnumber;
+    }
+    protected void setAccountnumber(String subject) {
+        this.accountnumber = accountnumber;
+    }
+
     @Override
     public String toString() {
-        return subject + " [" + this.threadID + "]: " + body;
+        return  "[" + accountnumber + "][" +  threadid + "]" + subject + "-" + body;
     }
 
 }

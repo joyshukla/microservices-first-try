@@ -14,9 +14,10 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 public class Post {
 
 	protected Long id;
-	protected String threadID;
+	protected String threadid;
 	protected String subject;
 	protected String body;
+	protected String accountnumber;
 
 	/**
 	 * Default constructor for JPA only.
@@ -38,11 +39,11 @@ public class Post {
 		this.id = id;
 	}
 
-	public String getThreadID() {
-		return threadID;
+	public String getThreadid() {
+		return threadid;
 	}
 	protected void setThreadID(String threadID) {
-		this.threadID = threadID;
+		this.threadid = threadid;
 	}
 
 	public String getSubject() {
@@ -59,9 +60,16 @@ public class Post {
 		this.body = body;
 	}
 
+	public String getAccountnumber() {
+		return accountnumber;
+	}
+	protected void setAccountnumber(String subject) {
+		this.accountnumber = accountnumber;
+	}
+
 	@Override
 	public String toString() {
-		return subject + " [" + this.threadID + "]: " + body;
+		return  "[" + accountnumber + "][" +  threadid + "]" + subject + "-" + body;
 	}
 
 }

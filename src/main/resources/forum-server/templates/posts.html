@@ -16,17 +16,19 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>threadId</th>
+					<th>Threadid</th>
 					<th>Subject</th>
 					<th>Body</th>
+					<th>AccountNumber</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<tr th:each="post : ${posts}">
-					<td th:text="${post.threadID}">threadID</td>
+					<td th:text="${post.threadid}">threadid</td>
 					<td th:text="${post.subject}">subject</td>
 					<td th:text="${post.body}">body</td>
+					<td th:text="${post.accountnumber}">accountnumber</td>
 				</tr>
 			</tbody>
 		</table>
