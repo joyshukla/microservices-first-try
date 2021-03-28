@@ -4,8 +4,10 @@ package io.pivotal.microservices.services.forum;
 import java.util.List;
 import java.util.logging.Logger;
 
-import io.pivotal.microservices.services.web.Account;
-import io.pivotal.microservices.services.web.WebAccountsService;
+import io.pivotal.microservices.services.forum.Account;
+import io.pivotal.microservices.services.forum.WebAccountsService;
+import io.pivotal.microservices.services.forum.Post;
+import io.pivotal.microservices.services.forum.ForumPostsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +42,7 @@ public class ForumPostsController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setAllowedFields("accountNumber", "searchText");
+        binder.setAllowedFields("subject", "body");
     }
 
     @RequestMapping("/posts")
@@ -58,6 +60,36 @@ public class ForumPostsController {
         if (posts != null)
             model.addAttribute("posts", posts);
         return "posts";
+    }
+
+    @RequestMapping(value = "/posts/add", method = RequestMethod.GET)
+    public String searchForm(Model model) {
+        model.addAttribute("addPostCriteria", new io.pivotal.microservices.services.forum.addPostCriteria());
+        return "addPost";
+    }
+
+
+    @RequestMapping(value = "/posts/add/doadd")
+    public String doAdd(Model model, addPostCriteria criteria, BindingResult result) {
+        logger.info("forum-service addPost() invoked: " + criteria);
+
+        criteria.validate(result);
+
+        String subject = criteria.getSubject();
+        String body = criteria.getBody();
+
+        postsService.addNewPost(subject, body);
+
+
+        return "success";
+
+        /*
+        if (StringUtils.hasText(accountNumber)) {
+            return byNumber(model, accountNumber);
+        } else {
+            String searchText = criteria.getSearchText();
+            return ownerSearch(model, searchText);
+        }*/
     }
 
 

@@ -66,6 +66,18 @@ public class ForumPostsService {
 
     }
 
+
+    public void addNewPost(String subject, String body) {
+
+        logger.info("addNewPost() invoked: for " + subject + " : " + body);
+        try {
+            restTemplate.getForObject(serviceUrl + "/posts/add/{subject}/{body}", Post.class, subject, body);
+        } catch (Exception e) {
+            logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
+        }
+
+    }
+
     /*
     public Account findByNumber(String accountNumber) {
 

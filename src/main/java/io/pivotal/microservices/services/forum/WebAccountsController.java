@@ -76,7 +76,7 @@ public class WebAccountsController {
 
     @RequestMapping(value = "/accounts/search", method = RequestMethod.GET)
     public String searchForm(Model model) {
-        model.addAttribute("searchCriteria", new io.pivotal.microservices.services.web.SearchCriteria());
+        model.addAttribute("searchCriteria", new io.pivotal.microservices.services.forum.SearchCriteria());
         return "accountSearch";
     }
 
