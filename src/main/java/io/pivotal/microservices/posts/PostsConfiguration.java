@@ -64,7 +64,7 @@ public class PostsConfiguration {
 			String thread = (String) item.get("thread");
 			logger.info("thread for " + number + " is " + thread);
 			//TODO for thread here may be.
-			jdbcTemplate.update("UPDATE T_POST SET thread = ? WHERE number = ?", "777777777", number);
+			//jdbcTemplate.update("UPDATE T_POST SET thread = ? WHERE thread = ?", "777777777", null);
 			//BigDecimal balance = new BigDecimal(rand.nextInt(10000000) / 100.0).setScale(2, RoundingMode.HALF_UP);
 			//jdbcTemplate.update("UPDATE T_POST SET balance = ? WHERE number = ?", balance, number);
 		}
