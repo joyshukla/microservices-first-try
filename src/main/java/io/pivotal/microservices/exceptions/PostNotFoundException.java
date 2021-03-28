@@ -16,6 +16,9 @@ public class PostNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public PostNotFoundException(String postNumber) {
-		super("No such account: " + postNumber);
+		super("No such post: " + postNumber);
+	}
+	public PostNotFoundException(Long threadid) {
+		super("No such Thread: " + threadid);
 	}
 }

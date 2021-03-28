@@ -53,16 +53,13 @@ public class PostsConfiguration {
 
         // Sanity check
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        List<Map<String, Object>> posts = jdbcTemplate.queryForList("SELECT number FROM T_POST");
+        List<Map<String, Object>> posts = jdbcTemplate.queryForList("SELECT subject FROM T_POST");
         logger.info("System has " + posts.size() + " posts");
 
-        // Populate with random balances
-        Random rand = new Random();
 
         for (Map<String, Object> item : posts) {
-            String number = (String) item.get("number");
-            BigDecimal balance = new BigDecimal(rand.nextInt(10000000) / 100.0).setScale(2, RoundingMode.HALF_UP);
-            jdbcTemplate.update("UPDATE T_POST SET balance = ? WHERE number = ?", balance, number);
+            String subject = (String) item.get("subject");
+
         }
 
         return dataSource;

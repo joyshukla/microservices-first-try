@@ -37,53 +37,75 @@ public class PostsController {
 				+ postRepository.countPosts() + " posts");
 	}
 
-	/**
-	 * Fetch an post with the specified post number.
-	 * 
-	 * @param postNumber
-	 *            A numeric, 9 digit post number.
-	 * @return The account if found.
-	 * @throws PostNotFoundException
-	 *             If the number is not recognised.
-	 */
-	@RequestMapping("/posts/{postNumber}")
-	public Post byNumber(@PathVariable("postNumber") String postNumber) {
-
-		logger.info("post-service byNumber() invoked: " + postNumber);
-		Post post = postRepository.findByNumber(postNumber);
-		logger.info("post-service byNumber() found: " + post);
-
-		if (post == null)
-			throw new PostNotFoundException(postNumber);
-		else {
-			return post;
-		}
-	}
 
 	/**
 	 * Fetch posts with the specified name. A partial case-insensitive match
 	 * is supported. So <code>http://.../posts/owner/a</code> will find any
 	 * posts with upper or lower case 'a' in their name.
 	 * 
-	 * @param partialName
+	 * @param partialSubject
 	 * @return A non-null, non-empty set of posts.
 	 * @throws PostNotFoundException
 	 *             If there are no matches at all.
 	 */
-	@RequestMapping("/posts/owner/{name}")
-	public List<Post> byOwner(@PathVariable("name") String partialName) {
-		logger.info("posts-service byOwner() invoked: "
+	@RequestMapping("/posts/{subject}")
+	public List<Post> bySubject(@PathVariable("subject") String partialSubject) {
+		logger.info("posts-service bySubject() invoked: "
 				+ postRepository.getClass().getName() + " for "
-				+ partialName);
+				+ partialSubject);
 
 		List<Post> posts = postRepository
-				.findByOwnerContainingIgnoreCase(partialName);
-		logger.info("posts-service byOwner() found: " + posts);
+				.findBySubjectContainingIgnoreCase(partialSubject);
+		logger.info("posts-service bySubject() found: " + posts);
 
 		if (posts == null || posts.size() == 0)
-			throw new PostNotFoundException(partialName);
+			throw new PostNotFoundException(partialSubject);
 		else {
 			return posts;
 		}
+	}
+
+	@RequestMapping("/posts/bytid/{threadid}")
+	public List<Post> byThreadID(@PathVariable Long threadid) {
+		logger.info("posts-service byThreadID() invoked: "
+				+ postRepository.getClass().getName() + " for "
+				+ threadid);
+
+		List<Post> posts = postRepository
+				.findByThreadID(threadid);
+		logger.info("posts-service byThreadID() found: " + posts);
+
+		if (posts == null || posts.size() == 0)
+			throw new PostNotFoundException(threadid);
+		else {
+			return posts;
+		}
+	}
+
+	@RequestMapping("/posts/add/{subject}/{body}")
+	public void addNewPost(@PathVariable String subject, @PathVariable String body) {
+		logger.info("posts-service addNewPost() invoked: "
+				+ postRepository.getClass().getName() + " for "
+				+ " Subject :" + subject
+				+ " Body :" + body);
+
+		Post document = new Post(subject, body);
+		postRepository.save(document);
+
+		logger.info("post-service addNewPost() done.");
+	}
+
+	@RequestMapping("/posts/add/{threadid}/{subject}/{body}")
+	public void addNewPostWithThreadID(@PathVariable Long threadid, @PathVariable String subject, @PathVariable String body) {
+		logger.info("posts-service addNewPostWithThreadID() invoked: "
+				+ postRepository.getClass().getName() + " for "
+				+ " ThreadID :" + threadid
+				+ " Subject :" + subject
+				+ " Body :" + body);
+
+		Post document = new Post(threadid, subject, body);
+		postRepository.save(document);
+
+		logger.info("post-service addNewPostWithThreadID() done.");
 	}
 }
