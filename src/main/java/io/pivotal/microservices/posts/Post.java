@@ -7,6 +7,7 @@ import java.math.RoundingMode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,21 +18,25 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "T_POST")
-public class Post implements  Serializable{
+public class Post implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     public static Long nextId = 0L;
+    public static Long nextThreadId = 0L;
 
     @Id
     protected Long id;
 
-    protected String number;
+    // thread ID
+    //@Column(name = "threadid")
+    protected Long threadID;
 
-    @Column(name = "name")
-    protected String owner;
+    //@Column(name = "subject")
+    protected String subject;
 
-    protected BigDecimal balance;
+    //@Column(name = "body")
+    protected String body;
 
     /**
      * This is a very simple, and non-scalable solution to generating unique
@@ -46,20 +51,40 @@ public class Post implements  Serializable{
         }
     }
 
-    protected Post() {
-        balance = BigDecimal.ZERO;
+
+    protected static Long getNextThreadId() {
+        synchronized (nextThreadId) {
+            return nextThreadId++;
+        }
     }
 
-    public Post(String number, String owner) {
+    protected Post() {
+    }
+
+    public Post(Long threadID, String subject, String body) {
+        // threadID provided, add the post to provided ThreadID
         id = getNextId();
-        this.number = number;
-        this.owner = owner;
-        balance = BigDecimal.ZERO;
+        this.threadID = threadID;
+        this.subject = subject;
+        this.body = body;
+    }
+
+    public Post(String subject, String body) {
+        // threadID not provided. create a new threadID and add the new post to it.
+        id = getNextId();
+        this.threadID = getNextThreadId();
+        this.subject = subject;
+        this.body = body;
     }
 
     public long getId() {
         return id;
     }
+
+    public long getThreadId() {
+        return threadID;
+    }
+
 
     /**
      * Set JPA id - for testing and JPA only. Not intended for normal use.
@@ -71,37 +96,10 @@ public class Post implements  Serializable{
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    protected void setNumber(String postNumber) {
-        this.number = postNumber;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    protected void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public BigDecimal getBalance() {
-        return balance.setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    public void withdraw(BigDecimal amount) {
-        balance.subtract(amount);
-    }
-
-    public void deposit(BigDecimal amount) {
-        balance.add(amount);
-    }
 
     @Override
     public String toString() {
-        return number + " [" + owner + "]: $" + balance;
+        return subject + " [" + this.threadID + "]: " + body;
     }
 
 }
