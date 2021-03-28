@@ -18,7 +18,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	 * @param accountNumber
 	 * @return The account if found, null otherwise.
 	 */
-	public Post findByNumber(String accountNumber);
+	public List<Post> findByNumber(String accountNumber);
 
 	/**
 	 * Find accounts whose owner name contains the specified string
