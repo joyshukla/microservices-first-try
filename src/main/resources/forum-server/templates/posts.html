@@ -5,6 +5,7 @@
 <head th:replace="header :: copy"></head>
 
 <body>
+	<h3><a th:href="@{__${#httpServletRequest.requestURI}__/addtothread}">Add a Post to This Thread</a></h3>
 
 	<div th:if="not ${posts}">
 		<div class="alert alert-warning m-2">
