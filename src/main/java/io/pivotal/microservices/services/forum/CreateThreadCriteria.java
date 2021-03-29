@@ -4,18 +4,21 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 public class CreateThreadCriteria {
-	private String accountNumber;
+	//private String accountNumber;
 
 	private String subject;
 	private String body;
 
-	public String getAccountNumber() {
+	/*public String getAccountNumber() {
 		return accountNumber;
 	}
+	 */
 
+	/*
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
+	 */
 
 	public String getSubject() {
 		return subject;
@@ -34,6 +37,8 @@ public class CreateThreadCriteria {
 	}
 
 	public boolean isValid() {
+		return true;
+		/*
 		if (StringUtils.hasText(accountNumber)) {
 			// check if account number is valid here.
 			return true;
@@ -42,9 +47,12 @@ public class CreateThreadCriteria {
 		{
 			return false;
 		}
+		 */
 	}
 
 	public boolean validate(Errors errors) {
+		return false;
+		/*
 		if (StringUtils.hasText(accountNumber)) {
 			if (accountNumber.length() != 9)
 				errors.rejectValue("accountNumber", "badFormat",
@@ -68,12 +76,13 @@ public class CreateThreadCriteria {
 		}
 
 		return errors.hasErrors();
+		 */
 	}
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return ("accountNumner : " + accountNumber +
+		return (/*"accountNumner : " + accountNumber +*/
 				" subject : " + subject +
 				" body : " + body);
 	}

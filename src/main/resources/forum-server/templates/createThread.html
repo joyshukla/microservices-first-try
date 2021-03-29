@@ -12,8 +12,9 @@
 	<form class="bg-gray" action="#" th:object="${createThreadCriteria}" method="GET"
 		th:action="@{/posts/docreatethread}">
 
+		<!--
 	    <div class="row">
-			<!-- Account Number field -->
+			<!- - Account Number field - ->
 			<div class="form-group col-4">
 				<label for="number" class="control-label col-xs-2">Account Number</label>
 				<input type="text" class="form-control" id="number"
@@ -21,12 +22,13 @@
 				<small class="form-text text-muted">Enter a valid 9 digit number</small>
 			</div>
 	
-			<!-- Account Number errors (if any) -->
+			<!- - Account Number errors (if any) - ->
 			<div class="col-5 p-4">
 				<span th:if="${#fields.hasErrors('accountNumber')}"
 					style="color: red; font-size: smaller" th:errors="*{accountNumber}">Incorrect account!</span>
 			</div>
 	    </div>
+		-->
 
 
         <div class="row">
