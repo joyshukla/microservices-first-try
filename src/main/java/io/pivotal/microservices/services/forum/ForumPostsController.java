@@ -36,7 +36,7 @@ public class ForumPostsController {
     }
 
     @InitBinder
-    // TODO need to understand purpose of this.
+
     public void initBinder(WebDataBinder binder) {
         binder.setAllowedFields("accountNumber", "subject", "body");
     }
@@ -152,8 +152,8 @@ public class ForumPostsController {
             postsService.createThread(accountNumber, subject, body);
         }
 
-        return byNumber(model, accountNumber);
-        //return getForum(model);
+        //return byThread(model, accountNumber);
+        return getForum(model);
     }
 
 }
