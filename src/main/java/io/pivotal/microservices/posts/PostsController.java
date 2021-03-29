@@ -15,9 +15,9 @@ import io.pivotal.microservices.exceptions.ThreadNotFoundException;
 
 
 /**
- * A RESTFul controller for accessing account information.
+ * A RESTFul controller for accessing posts information.
  * 
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @RestController
 public class PostsController {
@@ -27,17 +27,17 @@ public class PostsController {
 	protected PostRepository postRepository;
 
 	/**
-	 * Create an instance plugging in the respository of Accounts.
+	 * Create an instance plugging in the respository of Posts.
 	 * 
 	 * @param postRepository
-	 *            An account repository implementation.
+	 *            An post repository implementation.
 	 */
 	@Autowired
 	public PostsController(PostRepository postRepository) {
 		this.postRepository = postRepository;
 
-		logger.info("AccountRepository says system has "
-				+ postRepository.countAccounts() + " accounts");
+		logger.info("PostRepository says system has "
+				+ postRepository.countPosts() + " posts");
 	}
 
 	/**
@@ -64,8 +64,9 @@ public class PostsController {
 	}
 
 	/**
-	 * Fetch posts with the specified thread. So <code>http://.../posts/thread/a</code> will find any
-	 * accounts with upper or lower case 'a' in their name.
+	 * Fetch posts with the specified thread.
+	 * So <code>http://.../posts/thread/a</code> will find all
+	 * posts in the thread.
 	 *
 	 * @param thread
 	 * @return A non-null, non-empty set of posts.
@@ -74,7 +75,7 @@ public class PostsController {
 	 */
 	@RequestMapping("/posts/thread/{thread}")
 	public List<Post> byThread(@PathVariable("thread") String thread) {
-		logger.info("accounts-service byThread() invoked: "
+		logger.info("posts-service byThread() invoked: "
 				+ postRepository.getClass().getName() + " for "
 				+ thread);
 
@@ -90,7 +91,7 @@ public class PostsController {
 	}
 
 	/**
-	 * add post with the specified thread.
+	 * add post to an existing thread.
 	 * So <code>http://.../posts/addtothread/{thread}/{account}/{subject}/{body}
 	 * will add new post
 	 *
@@ -118,6 +119,7 @@ public class PostsController {
 		List<Post> posts = postRepository.findByThread(thread);
 		logger.info("posts-service addtothread() found: " + posts);
 
+		// verify that thread exists, else throw exception.
 		if (posts == null || posts.size() == 0)
 			throw new ThreadNotFoundException(thread);
 		else {
@@ -132,14 +134,12 @@ public class PostsController {
 	/**
 	 * add post by creating new thread.
 	 * So <code>http://.../posts/createthread/{account}/{subject}/{body}
-	 * will add new post to a new thread.
+	 * will add new post in a new thread.
 	 *
 	 * @param account
 	 * @param subject
 	 * @param body
 	 * @return A String
-	 * @throws ThreadNotFoundException
-	 *             If there are no matches at all.
 	 */
 	@RequestMapping("/posts/createthread/{account}/{subject}/{body}")
 	public String createThread(@PathVariable("account") String account,
@@ -158,70 +158,8 @@ public class PostsController {
 		return "success";
 	}
 
-
 	/**
-	 * Fetch accounts with the specified name. A partial case-insensitive match
-	 * is supported. So <code>http://.../accounts/owner/a</code> will find any
-	 * accounts with upper or lower case 'a' in their name.
-	 * 
-	 * @param partialSubject
-	 * @return A non-null, non-empty set of accounts.
-	 * @throws PostNotFoundException
-	 *             If there are no matches at all.
-	 */
-	@RequestMapping("/posts/subject/{name}")
-	public List<Post> bySubject(@PathVariable("name") String partialSubject) {
-		logger.info("accounts-service byOwner() invoked: "
-				+ postRepository.getClass().getName() + " for "
-				+ partialSubject);
-
-		List<Post> posts = postRepository
-				.findBySubjectContainingIgnoreCase(partialSubject);
-		logger.info("accounts-service byOwner() found: " + posts);
-
-		if (posts == null || posts.size() == 0)
-			throw new PostNotFoundException(partialSubject);
-		else {
-			return posts;
-		}
-	}
-
-	/**
-	 * Fetch all posts group by threads.
-	 *
-	 * @return A non-null, non-empty set of threads, that includes all posts.
-	 * @throws PostNotFoundException
-	 *             If there are no matches at all.
-	 */
-	@RequestMapping("/posts/getforum")
-	public List<List<Post>> getforum() {
-		logger.info("posts-service getforum() invoked: "
-				+ postRepository.getClass().getName());
-
-		List<List<Post>> results = new ArrayList<List<Post>>();
-
-		List<String> threads = postRepository.getDistinctThreads();
-
-		logger.info("post-service getforum() found threads : " + threads);
-
-		for(String thread: threads)
-		{
-			List<Post> postsInThread = postRepository.findByThread(thread);
-			results.add(postsInThread);
-		}
-
-		for(List<Post> plist: results)
-		{
-			logger.info("post-service getforum() thread by thread:" + plist);
-		}
-
-		logger.info("post-service getforum() results :" + results);
-
-		return results;
-	}
-
-	/**
-	 * Fetch all  threads.
+	 * Fetch all threads.
 	 *
 	 * @return A non-null, non-empty set of threads
 	 * @throws PostNotFoundException

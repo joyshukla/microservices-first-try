@@ -7,13 +7,13 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Repository for Account data implemented using Spring Data JPA.
+ * Repository for Post data implemented using Spring Data JPA.
  * 
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 public interface PostRepository extends CrudRepository<Post, Long> {
 	/**
-	 * Find an account with the specified account number.
+	 * Find a post by specified account.
 	 *
 	 * @param accountNumber
 	 * @return The account if found, null otherwise.
@@ -21,42 +21,27 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	public List<Post> findByNumber(String accountNumber);
 
 	/**
-	 * Find accounts whose owner name contains the specified string
-	 * 
-	 * @param partialName
-	 *            Any alphabetic string.
-	 * @return The list of matching accounts - always non-null, but may be
-	 *         empty.
-	 */
-	public List<Post> findBySubjectContainingIgnoreCase(String partialName);
-
-	/**
-	 * Find accounts whose thread is the specified string
+	 * Find posts whose thread is the specified string
 	 *
 	 * @param thread
-	 *            Any alphabetic string.
-	 * @return The list of matching accounts - always non-null, but may be
+	 *            a valid thread
+	 * @return The list of matching posts - always non-null, but may be
 	 *         empty.
 	 */
 	public List<Post> findByThread(String thread);
 
 	/**
-	 * Fetch the number of accounts known to the system.
+	 * Fetch the number of posts known to the system.
 	 * 
-	 * @return The number of accounts.
+	 * @return The number of posts.
 	 */
 	@Query("SELECT count(*) from Post")
-	public int countAccounts();
-
-	/*
-	@Query("SELECT DISTINCT p.name FROM People p WHERE p.name NOT IN ?1")
-	List<String> findNonReferencedNames(List<String> names);
-	 */
+	public int countPosts();
 
 	/**
 	 * Fetch the threads known to the system.
 	 *
-	 * @return The list of threads.
+	 * @return The list of threads in string format.
 	 */
 	@Query("SELECT DISTINCT thread from Post")
 	public List<String> getDistinctThreads();
