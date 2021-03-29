@@ -91,6 +91,22 @@ public class ForumPostsService {
             return Arrays.asList(posts);
     }
 
+    public List<String> getThreads() {
+        logger.info("getThreads() invoked.");
+        String[] threads = null;
+
+        try {
+            threads = restTemplate.getForObject(serviceUrl + "/posts/getthreads", String[].class);
+        } catch (HttpClientErrorException e) { // 404
+            // Nothing found
+        }
+
+        if (threads == null || threads.length == 0)
+            return null;
+        else
+            return Arrays.asList(threads);
+    }
+
     public List<Post> getForum() {
         logger.info("getForum() invoked.");
         Post[] posts = null;
