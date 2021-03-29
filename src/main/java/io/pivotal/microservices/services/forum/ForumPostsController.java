@@ -62,11 +62,23 @@ public class ForumPostsController {
     }
 
     @RequestMapping("/posts/subject/{subject}")
-    public String subjectSearch(Model model, @PathVariable("subject") String subject) {
+    public String bySubject(Model model, @PathVariable("subject") String subject) {
         logger.info("forum-service bySubject() invoked: " + subject);
 
         List<Post> posts = postsService.bySubjectContains(subject);
         logger.info("forum-service bySubject() found: " + posts);
+        //model.addAttribute("search", name);
+        if (posts != null)
+            model.addAttribute("posts", posts);
+        return "posts";
+    }
+
+    @RequestMapping("/posts/thread/{thread}")
+    public String byThread(Model model, @PathVariable("thread") String thread) {
+        logger.info("forum-service byThread() invoked: " + thread);
+
+        List<Post> posts = postsService.byThread(thread);
+        logger.info("forum-service byThread() found: " + posts);
         //model.addAttribute("search", name);
         if (posts != null)
             model.addAttribute("posts", posts);
@@ -83,7 +95,6 @@ public class ForumPostsController {
             model.addAttribute("posts", posts);
         return "posts";
     }
-
 
     @RequestMapping(value = "/posts/createthread", method = RequestMethod.GET)
     public String createThreadForm(Model model) {
@@ -111,30 +122,4 @@ public class ForumPostsController {
         return getForum(model);
     }
 
-
-    /*
-    @RequestMapping(value = "/accounts/search", method = RequestMethod.GET)
-    public String searchForm(Model model) {
-        model.addAttribute("searchCriteria", new SearchCriteria());
-        return "accountSearch";
-    }
-
-    @RequestMapping(value = "/accounts/dosearch")
-    public String doSearch(Model model, SearchCriteria criteria, BindingResult result) {
-        logger.info("web-service search() invoked: " + criteria);
-
-        criteria.validate(result);
-
-        if (result.hasErrors())
-            return "accountSearch";
-
-        String accountNumber = criteria.getAccountNumber();
-        if (StringUtils.hasText(accountNumber)) {
-            return byNumber(model, accountNumber);
-        } else {
-            String searchText = criteria.getSearchText();
-            return ownerSearch(model, searchText);
-        }
-    }
-     */
 }
