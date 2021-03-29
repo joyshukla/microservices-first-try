@@ -56,19 +56,6 @@ public class PostsConfiguration {
 		List<Map<String, Object>> posts = jdbcTemplate.queryForList("SELECT number FROM T_POST");
 		logger.info("System has " + posts.size() + " accounts");
 
-		// Populate with random balances
-		//Random rand = new Random();
-
-		for (Map<String, Object> item : posts) {
-			String number = (String) item.get("number");
-			String thread = (String) item.get("thread");
-			logger.info("thread for " + number + " is " + thread);
-			//TODO for thread here may be.
-			//jdbcTemplate.update("UPDATE T_POST SET thread = ? WHERE thread = ?", "777777777", null);
-			//BigDecimal balance = new BigDecimal(rand.nextInt(10000000) / 100.0).setScale(2, RoundingMode.HALF_UP);
-			//jdbcTemplate.update("UPDATE T_POST SET balance = ? WHERE number = ?", balance, number);
-		}
-
 		return dataSource;
 	}
 }
