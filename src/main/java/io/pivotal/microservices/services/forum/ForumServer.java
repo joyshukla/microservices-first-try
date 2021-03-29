@@ -13,10 +13,11 @@ import org.springframework.web.client.RestTemplate;
 import io.pivotal.microservices.services.registration.RegistrationServer;
 
 /**
- * Accounts web-server. Works as a microservice client, fetching data from the
- * Account-Service. Uses the Discovery Server (Eureka) to find the microservice.
+ * Forum-server. Works as a microservice client, fetching data from the
+ * Account-Service and Post-Service.
+ * Uses the Discovery Server (Eureka) to find the microservice.
  * 
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class, //
         DataSourceAutoConfiguration.class })
